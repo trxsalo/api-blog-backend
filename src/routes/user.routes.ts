@@ -3,5 +3,6 @@ import { userAll } from "../controllers/user.consstrollers";
 
 const route= Router();
 
-route.get('/users' ,userAll);
+route.get('/users',userAll);
+
 export default route;

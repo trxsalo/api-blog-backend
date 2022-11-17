@@ -4,11 +4,11 @@ import morgan from "morgan";
 import bodyParser from 'body-parser'
 
 import {process_env} from '../environment/environment.dev'
+
 import {db} from './database/connectioDB'
-import { userAll} from "./controllers/user.consstrollers";
-import { getInicio} from "./controllers/prueba.controllers";
 
-
+import Inicio from './routes/prueba.routes'
+import UserAll from  './routes/user.routes'
 
 export class Serve{
     private app:Application;
@@ -39,8 +39,8 @@ export class Serve{
     };
 
     router(){
-        this.app.use('/',getInicio);
-        this.app.use(userAll);
+        this.app.use('/',Inicio);
+        this.app.use(UserAll);
     };
 
     async connectionDB(){
