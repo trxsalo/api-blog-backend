@@ -1,11 +1,12 @@
-CREATE TABLE  usuario
-(
-	id_usuario serial PRIMARY KEY NOT NULL,
-	nombreCompleto varchar(50),
-	apeliidom VARCHAR(50),
-	email varchar(50) ,
-	usuario varchar(50) ,
-	password varchar(100),
 
-)
-;
+CREATE TABLE usuarios(
+    id SERIAL NOT NULL,
+    nombrecompleto character varying(50),
+    apellidom character varying(50),
+    email character varying(50),
+    usuario character varying(50),
+    password character varying(100),
+    createdat timestamp without time zone,
+    updatedat timestamp without time zone,
+    PRIMARY KEY(id)
+);
