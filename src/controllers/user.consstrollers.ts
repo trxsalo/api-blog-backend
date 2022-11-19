@@ -1,7 +1,7 @@
 
-import e, { Request,Response } from "express";
+import  { Request,Response } from "express";
 import { Usuario } from "../models/user.model";
-
+import  {encryptPassword} from '../middlewares/bcrypt'
 
 /**
  * @returns UN JSON CON TOS LOS USUARIOS
@@ -45,6 +45,7 @@ export const user = async (req:Request, res:Response):Promise<Response>=>{  ///o
         });
     }
 }
+
 /**
  * 
  * @param body{nombrecompleto,apellidom,email,usuario,password}
@@ -53,24 +54,28 @@ export const user = async (req:Request, res:Response):Promise<Response>=>{  ///o
 export const userCreate = async (req:Request, res:Response):Promise<Response>=>{ 
     
     try{
+
         const {
             nombrecompleto,
             apellidom,
             email,
             usuario,
             password} = req.body;
-            
-        const  new1 = await Usuario.create({
-            nombrecompleto,
-            apellidom,
-            email,
-            usuario,
-            password});
+        const  new1 = {
+            nombrecompleto:nombrecompleto,
+            apellidom:apellidom,
+            email:email,
+            usuario:usuario,
+            password: await encryptPassword(password)
+            };
 
-        if(new1){
+        const new2 = await Usuario.create(new1)
+        
+
+        if(new2){
             return res.status(200).json({
                 message:"Usuario Creado",
-                date: new1
+                date: new2
             });
         }
         else{
@@ -134,7 +139,7 @@ export const userUpdate = async (req:Request, res:Response):Promise<Response>=>{
             apellidom:apellidom,
             email:email,
             usuario:usuario,
-            password:password
+            password: await encryptPassword(password)
         });
         new1?.save();
 
