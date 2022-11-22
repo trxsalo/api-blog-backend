@@ -52,6 +52,7 @@ export class Serve{
 
     async connectionDB(){
         try{
+            //await db.sync();
             await db.authenticate(); //Prueba si la conexion a la db es trues
             console.log('Conexion exitosa');
             

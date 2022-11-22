@@ -18,5 +18,10 @@ export const Usuario = db.define('usuarios',{ //entre la comillas simple es de c
     },
     password:{
         type:DataTypes.STRING
+    },
+    roles_id:{
+        type:DataTypes.NUMBER
     }
+},{
+    timestamps: false
 });

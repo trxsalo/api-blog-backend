@@ -14,7 +14,7 @@ export const userAll = async (req:Request, res:Response):Promise<Response>=>{
     }
     catch(e){
         return res.status(401).json({
-            mesaage:'f'
+            mesaage:'f all'
         });
     }
 }
@@ -60,13 +60,16 @@ export const userCreate = async (req:Request, res:Response):Promise<Response>=>{
             apellidom,
             email,
             usuario,
-            password} = req.body;
+            password,
+            roles_id
+        } = req.body;
         const  new1 = {
             nombrecompleto:nombrecompleto,
             apellidom:apellidom,
             email:email,
             usuario:usuario,
-            password: await encryptPassword(password)
+            password: await encryptPassword(password),
+            roles_id:roles_id
             };
 
         const new2 = await Usuario.create(new1)
@@ -129,7 +132,9 @@ export const userUpdate = async (req:Request, res:Response):Promise<Response>=>{
             apellidom,
             email,
             usuario,
-            password} = req.body;
+            password,
+            roles_id
+        } = req.body;
 
         const {id} = req.params;
             
@@ -139,7 +144,8 @@ export const userUpdate = async (req:Request, res:Response):Promise<Response>=>{
             apellidom:apellidom,
             email:email,
             usuario:usuario,
-            password: await encryptPassword(password)
+            password: await encryptPassword(password),
+            roles_id:roles_id
         });
         new1?.save();
 

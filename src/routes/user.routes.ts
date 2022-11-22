@@ -3,12 +3,14 @@ import { user, userAll, userCreate, userDelete, userUpdate } from "../controller
 import { login } from "../controllers/login.constrollers";
 const route= Router();
 
-route.post('/users/login', login )
+route.post('/login', login ) //Loqueo 
 
-route.post('/users/', userCreate); //C
-route.get('/users/',userAll); // R
-route.get('/users/:id',user);
-route.put('/users/:id', userUpdate); // U
+route.post('/user/create', userCreate); //C
+
+route.get('/user',userAll); // R //
+route.get('/user/ :id',user);
+
+route.put('/user/:id', userUpdate); // U
 
 route.delete('/users/:id', userDelete); //D
 

@@ -14,7 +14,7 @@ const checkDuplicateUsernameOrEmail = async (req:Request, res:Response, next:Nex
             username: req.body.username
         }
         });
-
+        
         if (user) {
             return res.status(400).send({
             message: "El nombre de usuario ya está en uso!"
