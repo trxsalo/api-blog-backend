@@ -6,12 +6,12 @@ import {Usuario} from '../models/user.model';
  * Verifica si los datos ingresado en usuario,email
  *  ya se esta utilizando
  */
-const checkDuplicateUsernameOrEmail = async (req:Request, res:Response, next:NextFunction) => {
+export const checkDuplicateUsernameOrEmail = async (req:Request, res:Response, next:NextFunction) => {
     try {
       // Username
         let  user = await Usuario.findOne({
         where: {
-            username: req.body.username
+            usuario: req.body.usuario
         }
         });
         
@@ -36,16 +36,17 @@ const checkDuplicateUsernameOrEmail = async (req:Request, res:Response, next:Nex
         next();
     } catch (error) {
         return res.status(500).send({
-        message: "Unable to validate Username!"
+        message: "Error Interno!"
         });
     }
 };
 
 
 
-
+/*
 const verifySignUp = {
     checkDuplicateUsernameOrEmail
 };
 
 module.exports =verifySignUp;
+*/

@@ -34,7 +34,7 @@ export const login = async (req:Request,res:Response)=>{
         };
         
         const hast = usuario.get('password');
-        //const rol = usuario.get('roles_id')
+        const id = usuario.get('id');
 
         const pass:boolean = await encryptCompareSy(req.body.password,hast)
 
@@ -44,7 +44,11 @@ export const login = async (req:Request,res:Response)=>{
             });
         }
 
-        const token:string = jwt.sign({ id: user.id, rol: user.roles_id }, secrect.secrect,{
+        const token = jwt.sign({
+            id:id
+            },
+            secrect.secrect,
+            {
             expiresIn: 86400, // 24 horas
             });
         
