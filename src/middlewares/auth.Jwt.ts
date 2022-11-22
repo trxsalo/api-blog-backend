@@ -1,28 +1,46 @@
 import jwt from "jsonwebtoken";
 import { secrect } from '../config/auth.config' //Palabra secreta del token
-import { Request, Response, NextFunction } from "express"; //Interface de express
+import {Response, NextFunction } from "express"; //Interface de express
 import { Usuario } from "../models/user.model"; //Modelo de Usuario DB
 
+
+interface UserPayload{
+    id:number;
+    rol:number;
+};
+interface JwtExpPayload {
+    expiresIn: string;
+    exp: number;
+}
 
 /**
  * Verifica el token y estrae la carga Util de Id
  *  req.UserId
  */
 export const verifyToken = (req:any, res: Response, next: NextFunction) => {
+    try{
+        const token: any = req.headers["x-access-token"]; //Requerimos el Toquen que se ortogo al usuario Logeado
 
-    const token: any = req.headers["x-access-token"]; //Requerimos el Toquen que se ortogo al usuario Logeado
+        if (!token) return res.status(403).send({message: 'Token no Proveido'});
     
-    const authHeader = token.split('')[1]; //Defina el token, estableciéndolo igual a authHeader después de la palabra 'Bearer': posición 1
-
-    if (!authHeader) return res.status(403).send({message: 'Token no Proveido'});
-
-    jwt.verify(authHeader, secrect.secrect, (err:any,decoded:any)=>{
-
-        if (err) return res.status(404).json({message:"Token no valido"});
-
-        req.idUser =  decoded.id; // Funciona por favor
+        const jwtPayload = jwt.decode(token) as JwtExpPayload;
+    
+        req.jwtPayload = jwtPayload;
+    
+        const payload = jwt.verify(token, secrect.secrect) as UserPayload;
+    
+        req.jwtPayload = jwtPayload;
+        req.UserId = payload.id;
+        req.Rol = payload.rol
+    
         next();
-    });
+    }
+    catch(e){
+        return res.status(500).json({
+            message:'No autorizado'
+        })
+    }
+
 };
 
 
@@ -33,28 +51,24 @@ export const verifyToken = (req:any, res: Response, next: NextFunction) => {
  * de Adm 
  */
 export const isAdm = async (req: any, res: Response, next: NextFunction) => {
+    try{
+        const rol = req.Rol
 
-    const idUser = req.idUser
-
-    const user = await Usuario.findOne({
-        where:{
-            id:idUser
+        if (rol != 1) { //adm   
+            return res.status(404).json({
+                message:""
+            })
         }
-    });
-    
-    const role = user?.get('roles_id') || ''
-
-    if (role == 1) { //adm
         next();
         return;
+    
     }
-
-    //else return res.status(404).send({message:"Rol no entregado"});
-
-    res.status(403).json({
-        success:false,
-        message: 'Requiere Rol de Admi'
-    });
+    catch(e){
+        res.status(403).json({
+            success:false,
+            message: 'Requiere Rol de Admi'
+        });
+    }
 }; //isadm
 
 
@@ -65,7 +79,7 @@ export const isAdm = async (req: any, res: Response, next: NextFunction) => {
  */
 export const isUser = async (req: any, res: Response, next: NextFunction) => {
 
-    const idUser = req.idUser
+    const idUser = req.UserId
 
     const user = await Usuario.findOne({
         where:{
@@ -86,3 +100,5 @@ export const isUser = async (req: any, res: Response, next: NextFunction) => {
     });
 
 };//isuser
+
+

@@ -1,6 +1,8 @@
+import { Request, Response } from "express";
 import { Router } from "express";
+import { PostAll } from "../controllers/post.controllers";
 
-
+import {verifyToken, isAdm, isUser} from '../middlewares/auth.Jwt'; //autenticacion
 const route= Router();
 
 

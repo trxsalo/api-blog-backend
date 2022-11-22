@@ -1,19 +1,22 @@
 import { Router } from "express";
-import { user, userAll, userCreate, userDelete, userUpdate } from "../controllers/user.consstrollers";
-import { login } from "../controllers/login.constrollers";
-import {checkDuplicateUsernameOrEmail} from '../middlewares/verifySigUp'
+import { user, userAll, userCreate, userDelete, userUpdate } from "../controllers/user.consstrollers"; //controladores del usuario
+import { login } from "../controllers/login.constrollers"; // controllador del login
+import {checkDuplicateUsernameOrEmail} from '../middlewares/verifySigUp' //verifica los datos req.body{user,email}
+import {verifyToken, isAdm, isUser} from '../middlewares/auth.Jwt'; //autenticacion
+
 const route= Router();
 
-route.post('/login', login ) //Loqueo 
+route.post('/api/login', login ) //Login
 
-route.post('/user/create', checkDuplicateUsernameOrEmail ,userCreate); //C
+route.post('/api/user/create', [checkDuplicateUsernameOrEmail] ,userCreate); //C
 
-route.get('/user',userAll); // R //
-route.get('/user/ :id',user);
+route.get('/api/user',isUser, userAll); // R //
 
-route.put('/user/:id', checkDuplicateUsernameOrEmail ,userUpdate); // U
+route.get('/api/user/ :id',verifyToken ,user);
 
-route.delete('/user/:id', userDelete); //D
+route.put('/api/user/:id',  [verifyToken,checkDuplicateUsernameOrEmail] , userUpdate); // Actualizar Usuario
+
+route.delete('/api/user/:id', verifyToken, userDelete); //D
 
 
 export default route;
