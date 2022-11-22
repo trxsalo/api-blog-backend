@@ -1,7 +1,7 @@
 
 import  { Request,Response } from "express";
 import { Usuario } from "../models/user.model";
-import  {encryptPassword} from '../middlewares/bcrypt'
+import  {encryptPassword} from '../lib/bcrypt'
 
 /**
  * @returns UN JSON CON TOS LOS USUARIOS

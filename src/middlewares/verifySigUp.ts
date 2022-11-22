@@ -40,13 +40,3 @@ export const checkDuplicateUsernameOrEmail = async (req:Request, res:Response, n
         });
     }
 };
-
-
-
-/*
-const verifySignUp = {
-    checkDuplicateUsernameOrEmail
-};
-
-module.exports =verifySignUp;
-*/

@@ -2,7 +2,7 @@ import  { Request,Response } from "express";
 
 import jwt from 'jsonwebtoken'
 import { Usuario }from "../models/user.model";
-import {encryptCompareSy} from '../middlewares/bcrypt'
+import {encryptCompareSy} from '../lib/bcrypt'
 import {secrect} from '../config/auth.config'
 
 

@@ -11,7 +11,7 @@ export async function encryptPassword(password:string):Promise<string>{
 
 /**
  * 
- * @param passwordTexPlano el passaor en texto plano
+ * @param passwordTexPlano el passawor en texto plano
  * @param hastpassword el hst del pass encrytado
  * @returns boolean devuelve si son iguales
  */
