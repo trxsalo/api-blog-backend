@@ -2,16 +2,8 @@ import jwt from "jsonwebtoken";
 import { secrect } from '../config/auth.config' //Palabra secreta del token
 import {Response, NextFunction } from "express"; //Interface de express
 import { Usuario } from "../models/user.model"; //Modelo de Usuario DB
+import {JwtExpPayload, UserPayload} from '../interface/jwt.interface' // Interfaces
 
-
-interface UserPayload{
-    id:number;
-    rol:number;
-};
-interface JwtExpPayload {
-    expiresIn: string;
-    exp: number;
-}
 
 /**
  * Verifica el token y estrae la carga Util de Id
@@ -21,28 +13,25 @@ export const verifyToken = (req:any, res: Response, next: NextFunction) => {
     try{
         const token: any = req.headers["x-access-token"]; //Requerimos el Toquen que se ortogo al usuario Logeado
 
-        if (!token) return res.status(403).send({message: 'Token no Proveido'});
+        if (!token) return res.status(403).send({message: 'Token no Proveido'}); //Si noy hay toquen
     
-        const jwtPayload = jwt.decode(token) as JwtExpPayload;
+        const jwtPayload = jwt.decode(token) as JwtExpPayload; //extraemos
     
-        req.jwtPayload = jwtPayload;
+        const payload = jwt.verify(token, secrect.secrect) as UserPayload; //verficamos
     
-        const payload = jwt.verify(token, secrect.secrect) as UserPayload;
-    
-        req.jwtPayload = jwtPayload;
-        req.UserId = payload.id;
-        req.Rol = payload.rol
+        req.jwtPayload = jwtPayload; //enviamos
+        req.UserId = payload.id; //asignamos
+        req.Rol = payload.rol //asignamos
     
         next();
     }
-    catch(e){
+    catch(e){ //en casode error
         return res.status(500).json({
             message:'No autorizado'
         })
     }
 
 };
-
 
 
 /**
@@ -54,14 +43,9 @@ export const isAdm = async (req: any, res: Response, next: NextFunction) => {
     try{
         const rol = req.Rol
 
-        if (rol != 1) { //adm   
-            return res.status(404).json({
-                message:""
-            })
+        if (rol == 1) { //adm  
+            next(); //Siguiente
         }
-        next();
-        return;
-    
     }
     catch(e){
         res.status(403).json({
@@ -79,19 +63,10 @@ export const isAdm = async (req: any, res: Response, next: NextFunction) => {
  */
 export const isUser = async (req: any, res: Response, next: NextFunction) => {
 
-    const idUser = req.UserId
+    const user = req.UserId
 
-    const user = await Usuario.findOne({
-        where:{
-            id:idUser
-        }
-    });
-
-    const role = user?.get('roles_id') || ''
-
-    if (role == 2) { //user
-        next();
-        return;
+    if (user == 2) { //user
+        next(); //siguiente
     };
 
     res.status(403).json({

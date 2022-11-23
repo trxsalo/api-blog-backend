@@ -8,8 +8,9 @@ import {process_env} from '../environment/environment.dev'
 
 import {db} from './database/connectioDB'
 
-import Inicio from './routes/prueba.routes'
-import UserAll from  './routes/user.routes'
+import Inicio from './routes/prueba.routes';
+import UserAll from  './routes/user.routes';
+import Post from './routes/post.routes'
 
 export class Serve{
     private app:Application;
@@ -48,6 +49,7 @@ export class Serve{
     router(){
         this.app.use('/',Inicio);
         this.app.use(UserAll);
+        this.app.use(Post);
     };
 
     async connectionDB(){
