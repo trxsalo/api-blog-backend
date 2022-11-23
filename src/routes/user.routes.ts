@@ -10,13 +10,13 @@ route.post('/api/login', login ) //Login
 
 route.post('/api/user/create', [checkDuplicateUsernameOrEmail] ,userCreate); //C
 
-route.get('/api/user',isUser, userAll); // R //
+route.get('/api/user',[verifyToken], userAll); // R //
 
-route.get('/api/user/ :id',verifyToken ,user);
+route.get('/api/user/:id',[verifyToken, isUser] ,user);
 
-route.put('/api/user/:id',  [verifyToken,checkDuplicateUsernameOrEmail] , userUpdate); // Actualizar Usuario
+route.put('/api/user/:id', [verifyToken,checkDuplicateUsernameOrEmail,isUser] , userUpdate); // Actualizar Usuario
 
-route.delete('/api/user/:id', verifyToken, userDelete); //D
+route.delete('/api/user/:id', [verifyToken, isAdm], userDelete); //D
 
 
 export default route;

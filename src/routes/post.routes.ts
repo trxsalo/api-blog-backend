@@ -11,14 +11,14 @@ const route= Router();
 
 
 
-route.post('/api/test/post/', PostCreate); //C
+route.post('/api/test/post/', [verifyToken, isUser],PostCreate); //C
 
-route.get('/api/test/post/',[verifyToken, isAdm],PostAll); // R //
-route.get('/api/test/post/ :id', PostU);
+route.get('/api/test/post/',[verifyToken,isUser],PostAll); // R //
+route.get('/api/test/post/ :id', [verifyToken, isUser], PostU);
 
-route.put('/api/test/post/:id', PostUpdate ); // U
+route.put('/api/test/post/:id',[verifyToken, isUser], PostUpdate ); // U
 
-route.delete('/api/user/post/:id', PostDelete); //D
+route.delete('/api/user/post/:id',[verifyToken,isAdm], PostDelete); //D
 
 
 export default route;

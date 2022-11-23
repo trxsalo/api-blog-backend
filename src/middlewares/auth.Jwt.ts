@@ -43,14 +43,23 @@ export const isAdm = async (req: any, res: Response, next: NextFunction) => {
     try{
         const rol = req.Rol
 
-        if (rol == 1) { //adm  
-            next(); //Siguiente
+        if (rol == 1) { //adm 
+            
+            next();
         }
+        else{
+            return res.status(403).json({
+                success:false,
+                message: 'Requiere Rol de Adm',
+                rol
+            });
+        }
+        
     }
     catch(e){
         res.status(403).json({
             success:false,
-            message: 'Requiere Rol de Admi'
+            message: 'Requiere Rol '
         });
     }
 }; //isadm
@@ -63,17 +72,25 @@ export const isAdm = async (req: any, res: Response, next: NextFunction) => {
  */
 export const isUser = async (req: any, res: Response, next: NextFunction) => {
 
-    const user = req.UserId
+    try{
+        const rol = req.Rol
 
-    if (user == 2) { //user
-        next(); //siguiente
-    };
-
-    res.status(403).json({
-        succes: false,
-        message: 'Requieres rol de Usuario'
-    });
-
+        if (rol == 2) { //user
+            next(); ;
+        }else{
+            return res.status(403).json({
+                succes: false,
+                message: 'Requieres rol de Usuario',
+                rol
+            });
+        }
+    }
+    catch(e){
+        return res.status(403).json({
+            succes: false,
+            message: 'Requieres rol'
+        });
+    }   
 };//isuser
 
 

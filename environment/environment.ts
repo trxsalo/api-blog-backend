@@ -12,6 +12,6 @@ export const process_env={
 
     PORT_SERVE:5000,//el puerto donde se levantara el serve
 
-    PASS_JSON:''
+    PASS_JSON:'' //Palabra secreta para JsonWebToken
 
 }
