@@ -11,4 +11,7 @@ export const Post = db.define('post',{
     usuario_id:{
         type:DataTypes.NUMBER
     }
-},);
+},
+{
+    timestamps:true
+});

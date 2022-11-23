@@ -26,7 +26,7 @@ export const PostCreate = async (req:Request,res:Response)=>{
         const jwtToken = jwt.decode(token) as UserPayload
         const usuario_id = jwtToken.id
 
-        const {titulo, descripcion} = req.body
+        const {descripcion, titulo} = req.body
 
         const postNew = {
             titulo:titulo,
@@ -34,9 +34,9 @@ export const PostCreate = async (req:Request,res:Response)=>{
             usuario_id:usuario_id
         };
         const port = await Post.create(postNew);
-        return res.status(204).json({
+        return res.status(200).json({
             status:true,
-            postNew
+            port
         });
     }
     catch(e){
@@ -66,8 +66,13 @@ export const  PostU = async (req:Request,res:Response)=>{
         })
     }
     catch(e){
+        const token:any= req.headers['x-access-token'];
+        const jwtToken = jwt.decode(token) as UserPayload
+        const usuario_id = jwtToken.id
+
         return res.status(500).json({
-            message:"Error Interno"
+            message:"Error Interno",
+            usuario_id
         })
     }
 }

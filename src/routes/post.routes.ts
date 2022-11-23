@@ -11,7 +11,7 @@ const route= Router();
 
 
 
-route.post('/api/test/post/', [verifyToken, isUser],PostCreate); //C
+route.post('/api/test/post/', [verifyToken, isUser], PostCreate); //C
 
 route.get('/api/test/post/',[verifyToken,isUser],PostAll); // R //
 route.get('/api/test/post/ :id', [verifyToken, isUser], PostU);

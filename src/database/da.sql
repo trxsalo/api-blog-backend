@@ -21,9 +21,9 @@ CREATE TABLE roles(
     PRIMARY KEY(id)
 );
 
-DROP TABLE post;
+DROP TABLE posts;
 
-CREATE TABLE post(
+CREATE TABLE posts(
     id SERIAL NOT NULL,
     titulo character varying(50),
     descripcion character varying(100),
